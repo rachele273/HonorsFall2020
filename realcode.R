@@ -25,7 +25,23 @@ plot(mod1, what = "BIC", legendArgs = list(x = "bottomright", ncol=3))
 # Bayesian Information Criterion (BIC) values for 14 models to CDOP data
 library(factoextra)
 fviz_mclust(mod1, "BIC", palette = "jco")
-fviz_mclust(mod1, "classification", geom = "point", 
-            pointsize = 1.5, palette = "jco")
-fviz_mclust(mod1, "uncertainty", palette = "jco")
-
+#remove "conn" column. this has 0 for all values and it is preventing the next line of code
+BioData=subset(BioData,select=-c(conn))
+install.packages("ggsci")
+library(ggsci)
+library(ggplot2)
+library(gridExtra)
+palette.pals()
+#I was not able to load color palette jco
+fviz_mclust(mod1, "classification", geom = "point", pointsize = 1.5, palette.colors(palette="Classic Tableau"))
+fviz_mclust(mod1, "uncertainty", palette.colors(palette="Classic Tableau"))
+# cluster results for each class session.
+#imported new dataset with "conn"
+mod2 <- Mclust(BioData_FrequenciesALL_withconn_)
+summary(mod2)
+mod2results <- mod2$classification
+summary(mod2results)
+#merging clusters with original data
+LPA.results <- bind_cols(BioData_FrequenciesALL_withconn_, mod2results)
+#renaming cluster column
+LPA.results <- rename(LPA.results[-1], cluster=...19)
