@@ -18,8 +18,14 @@ library(tidyLPA)
 #imported dataset with frequencies--dataset has already been modified to contain only the columns of interest
 # carry out LPA on percent time data matrix.
 # VEI means that the clusters have variable volume, the same shape and orientation equal to coordinate axes.
-mod1 <- Mclust(BiovedaData_Edits2)
+mod1 <- Mclust(BioData)
 summary(mod1)
 summary(mod1$BIC) # Mclust VEI (diagonal, equal shape) model with 2 components
 plot(mod1, what = "BIC", legendArgs = list(x = "bottomright", ncol=3))
+# Bayesian Information Criterion (BIC) values for 14 models to CDOP data
+library(factoextra)
+fviz_mclust(mod1, "BIC", palette = "jco")
+fviz_mclust(mod1, "classification", geom = "point", 
+            pointsize = 1.5, palette = "jco")
+fviz_mclust(mod1, "uncertainty", palette = "jco")
 
