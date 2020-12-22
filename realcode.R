@@ -225,5 +225,8 @@ p9 <- ggplot(cluster9) +
 plot(p9)
 require(gridExtra)
 grid.arrange(p1,p2, p3,p4, p5, p6, p7, p8, p9)
-
+#saving LPA.results
+install.packages("xlsx")
+library(xlsx)
+write.xlsx(LPA.results, "LPAresults.xlsx")
 
